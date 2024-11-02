@@ -1,5 +1,6 @@
 'use client';
 import { useContext } from 'react';
+import Image from 'next/image';
 import { AppBar, Box, IconButton, Tooltip } from '@mui/material';
 import {
   Favorite,
@@ -30,7 +31,12 @@ export default function Nav() {
     >
       <Box width={1 / 5}>
         <IconButton sx={{ width: 56, height: 56 }}>
-          <img src="/icon.svg" alt="Custom Courseware Icon" />
+          <Image
+            src="/icon.svg"
+            alt="Custom Courseware Icon"
+            width={56}
+            height={56}
+          />
         </IconButton>
       </Box>
 
