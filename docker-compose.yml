@@ -1,11 +1,19 @@
 services:
   ui:
     build: .
-    ports:
-      - '3000:3000'
+    volumes:
+      - .env.local:/usr/local/app/.env.local
     command: dev
     develop:
       watch:
         - action: sync
-          path: ./src
+          path: src
           target: /usr/local/app/src
+        - action: rebuild
+          path: package.json
+        - action: rebuild
+          path: package-lock.json
+        - action: rebuild
+          path: .env.local
+    labels:
+      - traefik.http.routers.ui.rule=Host(`ui.custom-courseware.test`)

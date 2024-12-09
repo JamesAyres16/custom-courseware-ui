@@ -1,6 +1,7 @@
 'use client';
 import { Roboto } from 'next/font/google';
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
+import { LightMode, DarkMode } from '@mui/icons-material';
 import {
   createTheme,
   Theme,
@@ -43,7 +44,6 @@ const darkMode = createTheme({
 type SupportedTheme = 'light' | 'dark';
 
 function isSupportedTheme(str: string | null): str is SupportedTheme {
-  if (null) return false;
   return str === 'light' || str === 'dark';
 }
 
@@ -91,4 +91,13 @@ export function AppTheme({
       <ThemeProvider theme={themeMapper[theme]}>{children}</ThemeProvider>
     </ThemeContext.Provider>
   );
+}
+
+export function ThemeBtn() {
+  const { theme, setTheme } = useContext(ThemeContext);
+  if (theme === 'dark') {
+    return <LightMode onClick={() => setTheme('light')} />;
+  } else {
+    return <DarkMode onClick={() => setTheme('dark')} />;
+  }
 }

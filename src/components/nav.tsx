@@ -1,21 +1,33 @@
 'use client';
-import { useContext } from 'react';
 import Image from 'next/image';
+import { signIn } from 'next-auth/react';
 import { AppBar, Box, IconButton, Tooltip } from '@mui/material';
 import {
   Favorite,
   School,
   ShoppingCart,
   Notifications,
-  LightMode,
-  DarkMode,
   AccountCircle,
 } from '@mui/icons-material';
-import { ThemeContext } from '@/app/theme';
+import { ThemeBtn } from '@/app/theme';
 import Search from '@/components/search';
 
 export default function Nav() {
-  const { theme, setTheme } = useContext(ThemeContext);
+  const icons = [
+    { title: 'Favorites', value: <Favorite /> },
+    { title: 'Current Courses', value: <School /> },
+    { title: 'Cart', value: <ShoppingCart /> },
+    { title: 'Notifications', value: <Notifications /> },
+    { title: 'Change Theme', value: <ThemeBtn /> },
+    {
+      title: 'Sign In',
+      value: <AccountCircle onClick={() => signIn('keycloak')} />,
+    },
+  ].map((icon, index) => (
+    <Tooltip key={`tray-icon-${index}`} title={icon.title} arrow>
+      <IconButton>{icon.value}</IconButton>
+    </Tooltip>
+  ));
 
   return (
     <AppBar
@@ -51,41 +63,7 @@ export default function Nav() {
           justifyContent: 'space-around',
         }}
       >
-        <Tooltip title="Favorites" arrow>
-          <IconButton>
-            <Favorite />
-          </IconButton>
-        </Tooltip>
-
-        <Tooltip title="Current Courses" arrow>
-          <IconButton>
-            <School />
-          </IconButton>
-        </Tooltip>
-
-        <Tooltip title="Cart" arrow>
-          <IconButton>
-            <ShoppingCart />
-          </IconButton>
-        </Tooltip>
-
-        <Tooltip title="Notifications" arrow>
-          <IconButton>
-            <Notifications />
-          </IconButton>
-        </Tooltip>
-
-        <IconButton>
-          {theme === 'dark' ? (
-            <LightMode onClick={() => setTheme('light')} />
-          ) : (
-            <DarkMode onClick={() => setTheme('dark')} />
-          )}
-        </IconButton>
-
-        <IconButton>
-          <AccountCircle />
-        </IconButton>
+        {icons}
       </Box>
     </AppBar>
   );
